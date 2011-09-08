@@ -14,39 +14,50 @@
  * limitations under the License.
  */
 describe("phonegap file", function () {
-    window.resolveLocalFileSystemURI = window.webkitResolveLocalFileSystemURL = function () {};
-    window.requestFileSystem = window.webkitRequestFileSystem = function () {};
-
-    var LocalFileSystem = require('ripple/platform/phonegap/1.0/LocalFileSystem');
-
     describe("spec", function () {
         var spec = require('ripple/platform/phonegap/1.0/spec');
 
         describe("resolveLocalFileSystemURI", function () {
             it("points to respective module", function () {
                 expect(spec.objects.resolveLocalFileSystemURI.path)
-                    .toEqual("phonegap/1.0/resolveLocalFileSystemURI");
+                    .toEqual("phonegap/1.0/file/resolveLocalFileSystemURI");
             });
         });
 
         describe("requestFileSystem", function () {
             it("points to respective module", function () {
                 expect(spec.objects.requestFileSystem.path)
-                    .toEqual("phonegap/1.0/requestFileSystem");
+                    .toEqual("phonegap/1.0/file/requestFileSystem");
             });
         });
 
         describe("LocalFileSystem", function () {
             it("points to respective module", function () {
                 expect(spec.objects.LocalFileSystem.path)
-                    .toEqual("phonegap/1.0/LocalFileSystem");
+                    .toEqual("phonegap/1.0/file/LocalFileSystem");
             });
         });
     });
 
     describe("LocalFileSystem", function () {
-        var requestFileSystem = require('ripple/platform/phonegap/1.0/requestFileSystem'),
-            resolveLocalFileSystemURI = require('ripple/platform/phonegap/1.0/resolveLocalFileSystemURI');
+        var LocalFileSystem,
+            requestFileSystem,
+            resolveLocalFileSystemURI;
+
+        beforeEach(function () {
+            window.resolveLocalFileSystemURL = window.resolveLocalFileSystemURL || function () {};
+            window.requestFileSystem = window.requestFileSystem || function () {};
+
+            LocalFileSystem = require('ripple/platform/phonegap/1.0/file/LocalFileSystem');
+            requestFileSystem = require('ripple/platform/phonegap/1.0/file/requestFileSystem');
+            resolveLocalFileSystemURI = require('ripple/platform/phonegap/1.0/file/resolveLocalFileSystemURI');
+        });
+
+        afterEach(function () {
+            // argh
+            //delete window.requestFileSystem;
+            //delete window.resolveLocalFileSystemURL;
+        });
 
         describe("constants", function () {
             it("is exposes TEMPORARY", function () {
@@ -61,14 +72,14 @@ describe("phonegap file", function () {
         // TODO: this should filter file:/// and map it to what though? assume temp for now
         describe("resolveLocalFileSystemURI", function () {
             it("points to resolveLocalFileSystemURL or webkitResolveLocalFileSystemURL", function () {
-                expect(LocalFileSystem.resolveLocalFileSystemURI).toBe(window.webkitResolveLocalFileSystemURL);
+                expect(LocalFileSystem.resolveLocalFileSystemURI).toBe(window.resolveLocalFileSystemURL);
                 expect(resolveLocalFileSystemURI).toBe(LocalFileSystem.resolveLocalFileSystemURI);
             });
         });
 
         describe("requestFileSystem", function () {
             it("points to requestFileSystem or webkitRequestFileSystem", function () {
-                expect(LocalFileSystem.requestFileSystem).toBe(window.webkitRequestFileSystem);
+                expect(LocalFileSystem.requestFileSystem).toBe(window.requestFileSystem);
                 expect(requestFileSystem).toBe(LocalFileSystem.requestFileSystem);
             });
         });
