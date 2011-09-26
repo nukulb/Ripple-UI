@@ -13,10 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module.exports = {
-    "phonegap": {"1.0": require('ripple/platform/phonegap/1.0/spec')},
-    "phonegap.proto": {"1.0": require('ripple/platform/phonegap.proto/1.0/spec')},
-    "webworks.handset": {"2.0.0": require('ripple/platform/webworks.handset/2.0.0/spec')},
-    "webworks.tablet": {"2.0.0": require('ripple/platform/webworks.tablet/2.0.0/spec')},
-    "web": {"default": require('ripple/platform/web/default/spec')}
-};
+describe("honeypot",function () {
+    var honeypot = require('ripple/honeypot');
+
+    it("doesn't assign anything to the set value", function () {
+        honeypot.set(window, "bar", jasmine.createSpy());
+        expect(window.bar).not.toBeDefined();
+    });
+
+    it("sets off the trap", function () {
+        var pooh = { oh: "bother" },
+            trap = jasmine.createSpy("trap");
+
+        honeypot.set(window, "foo", trap);
+        window.foo = pooh;
+        expect(trap).toHaveBeenCalledWith(pooh);
+    });
+
+});
