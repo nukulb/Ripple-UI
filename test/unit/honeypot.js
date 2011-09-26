@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-describe("honeypot",function () {
+xdescribe("honeypot", function () {
     var honeypot = require('ripple/honeypot');
 
     it("doesn't assign anything to the set value", function () {
@@ -25,9 +25,8 @@ describe("honeypot",function () {
         var pooh = { oh: "bother" },
             trap = jasmine.createSpy("trap");
 
-        honeypot.set(window, "foo", trap);
+        honeypot.set(window, "foo", function () {}, trap);
         window.foo = pooh;
         expect(trap).toHaveBeenCalledWith(pooh);
     });
-
 });
