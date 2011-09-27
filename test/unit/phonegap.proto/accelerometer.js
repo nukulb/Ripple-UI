@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 describe("phonegap_accelerometer", function () {
-    var accel = require('ripple/platform/phonegap.proto/1.0/bridge/accelerometer'),
-        event = require('ripple/event');
+    var accel = require('ripple/platform/phonegap.proto/1.0/bridge/accelerometer');
 
     it("getCurrentAcceleration calls the success callback", function () {
         var success = jasmine.createSpy();
