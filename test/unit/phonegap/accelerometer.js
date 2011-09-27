@@ -15,12 +15,7 @@
  */
 describe("phonegap_accelerometer", function () {
     var accel = require('ripple/platform/phonegap/1.0/accelerometer'),
-        event = require('ripple/event'),
-        platform = require('ripple/platform');
-
-    beforeEach(function () {
-        spyOn(platform, "current").andReturn({name: "foo"});
-    });
+        event = require('ripple/event');
 
     it("getCurrentAcceleration calls the success callback", function () {
         var success = jasmine.createSpy();
